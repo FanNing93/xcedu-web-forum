@@ -56,14 +56,14 @@
       </div>
     </header>
     <div class="margin-top-size-large">
-      <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange" @row-click="rowClick">
         <el-table-column type="selection" width="55px" />
         <el-table-column fixed prop="articleTitle" label="标题" min-width="300px" />
         <el-table-column prop="plateName" label="所属版块" />
         <el-table-column prop="aliasName" label="发布人" />
         <el-table-column prop="pubDate" label="发布时间" min-width="150px" />
         <el-table-column prop="readNum" label="阅读" />
-        <el-table-column label="操作" width="80px" fixed="right">
+        <el-table-column label="操作" width="80px" fixed="right" prop="operate">
           <template slot-scope="scope">
             <el-dropdown trigger="click" @command="title => choose(title, scope.row)">
               <span class="el-dropdown-link">
@@ -165,6 +165,14 @@ export default {
     onEnterSearch () {
       this.flushArticleList()
     },
+    rowClick (row, column) {
+      window.console.log(column)
+      if (column.property === 'operate') {
+        return
+      }
+      const { href } = this.$router.resolve({ name: 'previewDetails' })
+      window.open(href + '?id=' + row.id, '_self')
+    },
     showAdvance () {
       this.advancedSearch = !this.advancedSearch
     },
@@ -185,8 +193,6 @@ export default {
       this.flushArticleList()
     },
     handleClick (row) {
-      // eslint-disable-next-line no-console
-      console.log(row)
     },
     toggleSelection (rows) {
       if (rows) {
