@@ -151,10 +151,6 @@ export function getNoticeList (params) {
 export function getArticleList (params) {
   return axios.get(prefix + '/advise/article/pagelist', { params: params })
 }
-// 通过id删除帖子
-export function deleteArticleById (params) {
-  return axios.delete(prefix + '/advise/article/deleteById', { params: params })
-}
 // 将文章置顶
 export function articleTop (params) {
   return axios.get(prefix + '/advise/article/articleTop', { params: params })

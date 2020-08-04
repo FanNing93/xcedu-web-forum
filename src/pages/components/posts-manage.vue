@@ -97,7 +97,7 @@
 <script>
 import {
   getArticleList,
-  deleteArticleById,
+  deleteArticle,
   articleTop,
   getPlateList
 } from '@/api/index'
@@ -205,7 +205,7 @@ export default {
       })
     },
     deleteArticle (params) {
-      deleteArticleById(params).then(res => {
+      deleteArticle(params).then(res => {
         if (res) {
           this.$message({
             message: '删除成功',
