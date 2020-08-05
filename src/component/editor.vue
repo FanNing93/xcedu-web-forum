@@ -18,8 +18,9 @@
         plugins: [
           'image'
         ],
-        images_upload_url: '/xcadmin/comp/attachment/upload',
-        images_reuse_filename: true
+        image_description: false,
+        images_reuse_filename: true,
+        images_upload_handler: fileUpLoad
       }"
       @input="editorChange"
     />
@@ -37,6 +38,10 @@ import 'tinymce/themes/silver'
 import 'tinymce/plugins/image'
 import Editor from '@tinymce/tinymce-vue'
 
+import OSS from 'ali-oss'
+import { v4 as uuidv4 } from 'uuid'
+let PATH = null
+
 export default {
   components: {
     editor: Editor
@@ -50,6 +55,7 @@ export default {
   data () {
     return {
       publicPath: process.env.WEB_PUBLIC_PATH,
+      client: null,
       htmlContent: ''
     }
   },
@@ -64,6 +70,31 @@ export default {
   methods: {
     editorChange () {
       this.$emit('input', this.htmlContent)
+    },
+    fileUpLoad (blobInfo, success, failure, progress) {
+      if (!PATH) {
+        PATH = 'tinyMCE/img/'
+      }
+      if (!this.client) {
+        this.client = new OSS({
+          region: 'oss-cn-shenzhen',
+          accessKeyId: 'LTAI4G2nbEWcDi9djnDY8tvJ',
+          accessKeySecret: 'ZZN02tVv7BpJEhc5bWa2NlNIdL6Vvp',
+          bucket: 'gtyzfile'
+        })
+      }
+      const id = uuidv4().replace(/-/g, '')
+      const rawFile = blobInfo.blob()
+      const fileName = id + rawFile.name.substring(rawFile.name.lastIndexOf('.'))
+      this.client.multipartUpload(PATH + fileName, rawFile, {
+        progress: p => {
+          progress(p * 100)
+        }
+      }).then(res => {
+        success(res.res.requestUrls[0].replace(/\?.*/g, ''))
+      }).catch(err => {
+        failure('Image upload failed due to a XHR Transport error. Code: ' + err)
+      })
     }
   }
 }

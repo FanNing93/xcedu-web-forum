@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { userManagePlate, getPlateList, getUserSetting } from '@/api/index'
+import { userManagePlate, getPlateList } from '@/api/index'
 import { mapGetters } from 'vuex'
 import logo from '@page/components/logo'
 import user from '@page/components/user'
@@ -45,14 +45,7 @@ export default {
       foldPlateList: [],
       isAdmin: false,
       userPlateList: [],
-      title: '',
-      userInfo: {
-        id: '',
-        trueName: '',
-        aliasName: '',
-        imgUrl: '',
-        gender: 0
-      }
+      title: ''
       // flag: this.$store.state.header
     }
   },
@@ -74,20 +67,11 @@ export default {
     this.init()
   },
   mounted () {
-    getUserSetting().then(res => {
-      this.userInfo = {
-        id: res.id,
-        trueName: res.trueName,
-        aliasName: res.aliasName,
-        imgUrl: res.imgUrl,
-        gender: res.gender
-      }
-      this.$store.commit('getPlateList', this.plateList)
-    })
     userManagePlate().then(res => {
       this.isAdmin = res.isAdmin
       this.userPlateList = res.plateList
     })
+    this.$store.commit('getPlateList', this.plateList)
   },
   methods: {
     init () {

@@ -15,7 +15,6 @@
                   {{ item.aliasName.slice(item.aliasName.length - 2 , item.aliasName.length) }}
                 </div>
                 <el-avatar v-if="item.anonymous === 1" :src="require('@/assets/user.png')" />
-
               </div>
             </el-col>
             <el-col :span="22">
@@ -50,7 +49,7 @@
               </div>
               <div class="margin-top-size-small" style="line-height:24px;margin-top:10px">
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" v-html="item.articleContentShort + ' ...'" />
-                <span v-show="(item.articleContentShort && item.articleContentShort.length<50) || item.expandOpen" v-html="item.articleContent" />
+                <span v-show="(item.articleContentShort!==null && item.articleContentShort.length<50) || item.expandOpen" v-html="item.articleContent" />
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="expand(index)">展开全文</span>
                 <span v-show="item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="retract(index)">收起全文</span>
               </div>
@@ -83,11 +82,11 @@
           </el-row>
           <div class="fa-more replay margin-top-size-nomal" style="margin-top: 20px; margin-left: -20px; margin-right: -20px;">
             <transition name="el-fade-in-linear">
-              <el-card v-show="tag[index]" ref="operate" style="border: 0 none; box-shadow: non; box-shadow:inset 1px 3px 3px rgba(0,0,0,.05)">
+              <el-card v-show="tag[index]" ref="operate" style="border: 0 none; box-shadow:inset 1px 3px 3px rgba(0,0,0,.05)">
                 <!-- <div class="top" /> -->
                 <div style="display:flex">
                   <el-col :span="2" class="mr-10">
-                    <el-avatar v-if="userInfo.userAvator" :src="userInfo.userAvator" />
+                    <el-avatar v-if="userInfo.userAvator" :src="'/api/v1/' + userInfo.userAvator + '&access_token=' + accessToken" />
                     <div v-else style="width:40px;height:40px;border-radius:50%;background:#3396fc;color:#fff;line-height:40px;text-align:center">
                       {{ userInfo.userName.slice(userInfo.userName.length - 2 , userInfo.userName.length) }}
                     </div>
@@ -107,7 +106,7 @@
                 </div>
                 <div v-for="(comment,num) in commentList" :key="num" class="margin-top-size-mix padding-top-size-mix replay-line" style="display:flex; ">
                   <el-col :span="2" class="mr-10">
-                    <el-avatar v-if="comment.anonymous === 0 && comment.imgUrl" :src="comment.imgUrl" />
+                    <el-avatar v-if="comment.anonymous === 0 && comment.imgUrl" :src="'/api/v1/' + comment.imgUrl + '&access_token=' + accessToken" />
                     <div v-if="comment.anonymous === 0 && !comment.imgUrl" style="width:40px;height:40px;border-radius:50%;background:#3396fc;color:#fff;line-height:40px;text-align:center">
                       {{ comment.aliasName.slice(comment.aliasName.length - 2 , comment.aliasName.length) }}
                     </div>
@@ -175,7 +174,7 @@
         <div style="font-size:14px;color:#999">管理员</div>
       </div>
       <div v-for="(manager,index) in plateManager" :key="index" class="text item bghover" style="display:flex;align-items:center">
-        <el-avatar v-if="manager.userImgUrl" :src="manager.userImgUrl" />
+        <el-avatar v-if="manager.userImgUrl" :src="'/api/v1/' + manager.userImgUrl + '&access_token=' + accessToken" />
         <div v-else style="width:40px;height:40px;border-radius:50%;background:#3396fc;color:#fff;line-height:40px;text-align:center">
           {{ manager.userName.slice(manager.userName.length - 2 , manager.userName.length) }}
         </div>
@@ -592,14 +591,12 @@ export default {
         orderType = 1
       }
       getArticleByPlate({ plateId: this.plateId, page: this.pageNumber++, pageSize: this.pageSize, pageFlag: this.pageFlag, orderType: orderType, isReadArticle: 1 }).then(res => {
-        this.nomoreState = this.recordNum >= res.totalRecords
-        if (!this.nomoreState) {
-          for (let i = 0; i < res.records.length; i++) {
-            res.records[i].expandOpen = false
-            this.pageContent.push(res.records[i])
-            this.recordNum++
-          }
+        for (let i = 0; i < res.records.length; i++) {
+          res.records[i].expandOpen = false
+          this.pageContent.push(res.records[i])
+          this.recordNum++
         }
+        this.nomoreState = this.recordNum >= res.totalRecords
         this.loading = false
       })
     },
