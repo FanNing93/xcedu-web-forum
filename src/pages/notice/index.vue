@@ -21,7 +21,7 @@
               <span>
                 {{ notice.noticeContent != null ? notice.noticeContent : notice.commentContent }}
               </span>
-              <span v-if="!isNotice && notice.articleIsDelete===0" style="float:right;cursor:pointer" class="color" @click.stop="showTag(notice.commentId,index)">
+              <span v-if="!isNotice && notice.articleIsDelete===0" style="float:right;cursor:pointer" class="el-icon-chat-line-round" @click.stop="showTag(notice.commentId,index)">
                 回复
               </span>
             </div>
@@ -61,7 +61,7 @@
                   </el-col>
                   <el-col :span="22" class="dss">
                     <el-checkbox v-model="anonymous">匿名回复</el-checkbox>
-                    <el-button type="primary" size="small" @click="repSave(notice.commentTopId,notice.commentId)">回复</el-button>
+                    <el-button type="primary" size="small" @click="repSave(notice.commentTopId,notice.commentId,index)">回复</el-button>
                   </el-col>
                 </div>
               </el-card>
@@ -164,7 +164,7 @@ export default {
         }
       })
     },
-    repSave (topId, commentId) {
+    repSave (topId, commentId, index) {
       if (!this.repInput) {
         this.$message({
           message: '请输入回复内容',
@@ -178,8 +178,9 @@ export default {
             message: '回复成功',
             type: 'success'
           })
-          this.repChecked = false
+          this.anonymous = false
           this.repInput = ''
+          this.$set(this.tag, index, false)
         } else {
           this.$message({
             message: '回复保存失败',
