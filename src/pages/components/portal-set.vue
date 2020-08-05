@@ -53,7 +53,7 @@ export default {
           }
         ],
         plateAdminJson: [
-          { required: true, message: '请选择管理员', trigger: 'blur' }
+          { required: true, message: '请选择管理员', trigger: 'change' }
         ]
       }
     }

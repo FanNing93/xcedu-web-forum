@@ -91,7 +91,7 @@ export default {
           }
         ],
         plateId: [
-          { required: true, message: '请选择所属版块', trigger: 'blur' }
+          { required: true, message: '请选择所属版块', trigger: 'change' }
         ],
         articleContent: [
           { required: true, message: '内容不能为空', trigger: 'blur' }
@@ -136,7 +136,7 @@ export default {
       this.form = {
         id: res.id,
         articleTitle: res.articleTitle,
-        plateId: res.plateId,
+        plateId: res.plateId ? res.plateId : '',
         articleContent: res.articleContent,
         imgFileIds: res.imgFileIds,
         fileIds: res.fileIds,

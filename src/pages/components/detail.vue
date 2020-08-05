@@ -299,10 +299,7 @@ export default {
     }
   },
   mounted () {
-    // 获取list
-    hotList({ listNum: 5 }).then(res => {
-      this.hotArticles = res
-    })
+    this.getHotList()
     this.getMyArticleCount()
     getUserSetting().then(res => {
       this.userInfo = {
@@ -491,6 +488,12 @@ export default {
         this.getMyArticleCount()
       })
     },
+    getHotList () {
+      // 获取list
+      hotList({ listNum: 5 }).then(res => {
+        this.hotArticles = res
+      })
+    },
     deleteArticle (index, articleId) {
       this.$confirm('此操作将删除该帖子 , 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -503,6 +506,7 @@ export default {
           } else {
             this.pageContent.splice(index, 1)
             this.getMyArticleCount()
+            this.getHotList()
             this.$message.success('删除成功')
           }
         })
