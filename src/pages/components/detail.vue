@@ -500,6 +500,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        if (this.tag) {
+          Object.keys(this.tag).forEach((index) => {
+            this.tag[index] = false
+          })
+        }
         deleteArticle({ ids: arrayToStrWithOutComma(articleId.split(',')) }).then(res => {
           if (!res) {
             this.$message.error('删除失败，请稍后再试')
