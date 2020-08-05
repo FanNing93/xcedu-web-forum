@@ -298,9 +298,6 @@ export default {
       this.load()
     }
   },
-  created () {
-
-  },
   mounted () {
     // 获取list
     hotList({ listNum: 5 }).then(res => {
@@ -579,6 +576,11 @@ export default {
       this.show = !this.show
     },
     load () {
+      if (this.tag) {
+        Object.keys(this.tag).forEach((index) => {
+          this.tag[index] = false
+        })
+      }
       this.loading = true
       // 切换到管理监听不到  通过路由参数获取plateId
       if (this.$route.query.index === '0' || !this.$route.query.index) {
