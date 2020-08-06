@@ -584,9 +584,9 @@ export default {
           this.tag[index] = false
         })
         this.$set(this.tag, index, true)
+        this.commentList = []
+        this.getCommentById(articleId)
       }
-      this.commentList = []
-      this.getCommentById(articleId)
     },
     expand (index) {
       this.pageContent[index].expandOpen = true
