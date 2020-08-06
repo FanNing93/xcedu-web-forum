@@ -298,14 +298,8 @@ export default {
       this.load()
     }
   },
-  created () {
-
-  },
   mounted () {
-    // 获取list
-    hotList({ listNum: 5 }).then(res => {
-      this.hotArticles = res
-    })
+    this.getHotList()
     this.getMyArticleCount()
     getUserSetting().then(res => {
       this.userInfo = {
@@ -494,18 +488,30 @@ export default {
         this.getMyArticleCount()
       })
     },
+    getHotList () {
+      // 获取list
+      hotList({ listNum: 5 }).then(res => {
+        this.hotArticles = res
+      })
+    },
     deleteArticle (index, articleId) {
       this.$confirm('此操作将删除该帖子 , 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        if (this.tag) {
+          Object.keys(this.tag).forEach((index) => {
+            this.tag[index] = false
+          })
+        }
         deleteArticle({ ids: arrayToStrWithOutComma(articleId.split(',')) }).then(res => {
           if (!res) {
             this.$message.error('删除失败，请稍后再试')
           } else {
             this.pageContent.splice(index, 1)
             this.getMyArticleCount()
+            this.getHotList()
             this.$message.success('删除成功')
           }
         })
@@ -579,6 +585,11 @@ export default {
       this.show = !this.show
     },
     load () {
+      if (this.tag) {
+        Object.keys(this.tag).forEach((index) => {
+          this.tag[index] = false
+        })
+      }
       this.loading = true
       // 切换到管理监听不到  通过路由参数获取plateId
       if (this.$route.query.index === '0' || !this.$route.query.index) {
