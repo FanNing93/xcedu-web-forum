@@ -16,7 +16,7 @@
         </div>
       </div>
     </header>
-    <div style="margin-top:20px">
+    <div style="margin-top-size-large">
       <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
         <!-- <el-table-column type="selection" width="55px" /> -->
         <el-table-column fixed prop="plateName" min-width="120px" label="版块名称" />
@@ -254,5 +254,8 @@ export default {
 }
 .manage >>> .el-dialog__wrapper .el-dialog {
   margin-top: -150px !important;
+}
+.manage >>> .el-table__fixed-right::before,.manage >>>  .el-table__fixed::before {
+  position: static;
 }
 </style>
