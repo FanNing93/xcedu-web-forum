@@ -266,7 +266,8 @@ export default {
       repComId: '',
       repTopId: '',
       repName: '',
-      myClick: ''
+      myClick: '',
+      likeClickState: true
     }
   },
   computed: {
@@ -400,31 +401,35 @@ export default {
       })
     },
     likeComment (index, commentId, flag) {
-      likeComment({ index, commentId: commentId, flag: flag }).then(res => {
-        if (res) {
-          let msg = ''
-          if (flag === 0) {
-            msg = '取消点赞成功'
-            this.commentList[index].userHasLike = false
-            this.commentList[index].commentLikeNum--
+      if (this.likeClickState) {
+        this.likeClickState = false
+        likeComment({ index, commentId: commentId, flag: flag }).then(res => {
+          if (res) {
+            let msg = ''
+            if (flag === 0) {
+              msg = '取消点赞成功'
+              this.commentList[index].userHasLike = false
+              this.commentList[index].commentLikeNum--
+            } else {
+              msg = '点赞成功'
+              this.commentList[index].userHasLike = true
+              this.commentList[index].commentLikeNum++
+            }
+            this.$message({
+              message: msg,
+              type: 'success'
+            })
+            // 点赞时刷新通知数量
+            this.flushNoitceNum()
           } else {
-            msg = '点赞成功'
-            this.commentList[index].userHasLike = true
-            this.commentList[index].commentLikeNum++
+            this.$message({
+              message: '点赞失败',
+              type: 'error'
+            })
           }
-          this.$message({
-            message: msg,
-            type: 'success'
-          })
-          // 点赞时刷新通知数量
-          this.flushNoitceNum()
-        } else {
-          this.$message({
-            message: '点赞失败',
-            type: 'error'
-          })
-        }
-      })
+          this.likeClickState = true
+        })
+      }
     },
     // 预处理dropdown 将帖子id装入command
     beforeHandleCommand (index, articleId, topFlag, command) {
@@ -436,57 +441,65 @@ export default {
       }
     },
     likeArticle (articleId, index, flag) {
-      likeArticle({ articleId: articleId, flag: flag }).then(res => {
-        if (!res) {
-          this.$message({
-            message: '操作失败',
-            type: 'error'
-          })
-        } else if (flag === 0) {
-          this.pageContent[index].likeNum--
-          this.pageContent[index].userHasLike = false
-          this.$message({
-            message: '取消点赞成功',
-            type: 'success'
-          })
-          this.flushNoitceNum()
-        } else if (flag === 1) {
-          this.pageContent[index].likeNum++
-          this.pageContent[index].userHasLike = true
-          this.$message({
-            message: '点赞成功',
-            type: 'success'
-          })
-          // 点赞时刷新通知数量
-          this.flushNoitceNum()
-        }
-      })
+      if (this.likeClickState) {
+        this.likeClickState = false
+        likeArticle({ articleId: articleId, flag: flag }).then(res => {
+          if (!res) {
+            this.$message({
+              message: '操作失败',
+              type: 'error'
+            })
+          } else if (flag === 0) {
+            this.pageContent[index].likeNum--
+            this.pageContent[index].userHasLike = false
+            this.$message({
+              message: '取消点赞成功',
+              type: 'success'
+            })
+            this.flushNoitceNum()
+          } else if (flag === 1) {
+            this.pageContent[index].likeNum++
+            this.pageContent[index].userHasLike = true
+            this.$message({
+              message: '点赞成功',
+              type: 'success'
+            })
+            // 点赞时刷新通知数量
+            this.flushNoitceNum()
+          }
+          this.likeClickState = true
+        })
+      }
     },
     attentionArticle (articleId, index, flag) {
-      attentionArticle({ id: articleId, flag: flag }).then(res => {
-        if (!res) {
-          this.$message({
-            message: '收藏失败，请稍后再试',
-            type: 'error'
-          })
-        } else if (flag === 0) {
-          this.pageContent[index].userHasAttention = false
-          this.$message({
-            message: '取消收藏成功',
-            type: 'success'
-          })
-          this.flushNoitceNum()
-        } else if (flag === 1) {
-          this.pageContent[index].userHasAttention = true
-          this.$message({
-            message: '收藏成功',
-            type: 'success'
-          })
-          // 收藏时刷新通知数量
-          this.flushNoitceNum()
-        }
-        this.getMyArticleCount()
-      })
+      if (this.likeClickState) {
+        this.likeClickState = false
+        attentionArticle({ id: articleId, flag: flag }).then(res => {
+          if (!res) {
+            this.$message({
+              message: '收藏失败，请稍后再试',
+              type: 'error'
+            })
+          } else if (flag === 0) {
+            this.pageContent[index].userHasAttention = false
+            this.$message({
+              message: '取消收藏成功',
+              type: 'success'
+            })
+            this.flushNoitceNum()
+          } else if (flag === 1) {
+            this.pageContent[index].userHasAttention = true
+            this.$message({
+              message: '收藏成功',
+              type: 'success'
+            })
+            // 收藏时刷新通知数量
+            this.flushNoitceNum()
+          }
+          this.likeClickState = true
+          this.getMyArticleCount()
+        })
+      }
     },
     getHotList () {
       // 获取list
