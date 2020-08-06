@@ -4,7 +4,7 @@
       <el-form-item label="版块名称" :label-width="formLabelWidth" prop="plateName">
         <el-input v-model="form.plateName" placeholder="板块名称（1~10个字符）" />
       </el-form-item>
-      <el-form-item label="管理员" :label-width="formLabelWidth" prop="plateAdminJson">
+      <el-form-item label="管理员" :label-width="formLabelWidth" required>
         <chooseUser
           ref="manager"
           v-model="form.plateAdminJson"
@@ -51,9 +51,6 @@ export default {
           {
             validator: nameValidator
           }
-        ],
-        plateAdminJson: [
-          { required: true, message: '请选择管理员', trigger: 'change' }
         ]
       }
     }
