@@ -155,7 +155,8 @@ export default {
       resTopId: '',
       repName: '',
       repInput: '',
-      repChecked: false
+      repChecked: false,
+      clickState: true
     }
   },
 
@@ -192,18 +193,22 @@ export default {
       this.$router.push({ name: 'home' })
     },
     topArticle (flag, topFlag) {
-      topArticle({ id: this.article.id, flag: flag, topFlag: topFlag }).then(res => {
-        if (!res) {
-          this.$message.error('操作失败，请稍后再试')
-        } else {
-          if (flag === 'forum') {
-            this.article.forumTop = topFlag
+      if (this.clickState) {
+        this.clickState = false
+        topArticle({ id: this.article.id, flag: flag, topFlag: topFlag }).then(res => {
+          if (!res) {
+            this.$message.error('操作失败，请稍后再试')
           } else {
-            this.article.plateTop = topFlag
+            if (flag === 'forum') {
+              this.article.forumTop = topFlag
+            } else {
+              this.article.plateTop = topFlag
+            }
+            this.$message.success('操作成功')
           }
-          this.$message.success('操作成功')
-        }
-      })
+          this.clickState = true
+        })
+      }
     },
     sendComment () {
       if (!this.commentInput) {
@@ -238,50 +243,62 @@ export default {
       })
     },
     likeArticle (flag) {
-      likeArticle({ articleId: this.article.id, flag: flag }).then(res => {
-        if (!res) {
-          this.$message.error('操作失败')
-        } else if (flag === 0) {
-          this.article.likeNum--
-          this.article.userHasLike = false
-          this.$message.success('取消点赞成功')
-        } else if (flag === 1) {
-          this.article.likeNum++
-          this.article.userHasLike = true
-          this.$message.success('点赞成功')
-        }
-      })
+      if (this.clickState) {
+        this.clickState = false
+        likeArticle({ articleId: this.article.id, flag: flag }).then(res => {
+          if (!res) {
+            this.$message.error('操作失败')
+          } else if (flag === 0) {
+            this.article.likeNum--
+            this.article.userHasLike = false
+            this.$message.success('取消点赞成功')
+          } else if (flag === 1) {
+            this.article.likeNum++
+            this.article.userHasLike = true
+            this.$message.success('点赞成功')
+          }
+          this.clickState = true
+        })
+      }
     },
     likeComment (index, commentId, flag) {
-      likeComment({ index, commentId: commentId, flag: flag }).then(res => {
-        if (res) {
-          this.$message.success('点赞成功')
-          if (flag === 0) {
-            this.comments[index].userHasLike = false
-            this.comments[index].commentLikeNum--
+      if (this.clickState) {
+        this.clickState = false
+        likeComment({ index, commentId: commentId, flag: flag }).then(res => {
+          if (res) {
+            this.$message.success('点赞成功')
+            if (flag === 0) {
+              this.comments[index].userHasLike = false
+              this.comments[index].commentLikeNum--
+            } else {
+              this.comments[index].userHasLike = true
+              this.comments[index].commentLikeNum++
+            }
           } else {
-            this.comments[index].userHasLike = true
-            this.comments[index].commentLikeNum++
+            this.$message.error('点赞失败')
           }
-        } else {
-          this.$message.error('点赞失败')
-        }
-      })
+          this.clickState = true
+        })
+      }
     },
     attentionArticle (flag) {
-      attentionArticle({ id: this.article.id, flag: flag }).then(res => {
-        if (!res) {
-          this.$message.error('收藏失败，请稍后再试')
-        } else if (flag === 0) {
-          this.article.attentionNum--
-          this.article.userHasAttention = false
-          this.$message.success('取消收藏成功')
-        } else if (flag === 1) {
-          this.article.attentionNum++
-          this.article.userHasAttention = true
-          this.$message.success('收藏成功')
-        }
-      })
+      if (this.clickState) {
+        this.clickState = false
+        attentionArticle({ id: this.article.id, flag: flag }).then(res => {
+          if (!res) {
+            this.$message.error('收藏失败，请稍后再试')
+          } else if (flag === 0) {
+            this.article.attentionNum--
+            this.article.userHasAttention = false
+            this.$message.success('取消收藏成功')
+          } else if (flag === 1) {
+            this.article.attentionNum++
+            this.article.userHasAttention = true
+            this.$message.success('收藏成功')
+          }
+          this.clickState = true
+        })
+      }
     },
     repReply (id, topId, repName) {
       this.repComId = id
