@@ -54,7 +54,7 @@
                 <span v-show="item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="retract(index)">收起全文</span>
               </div>
               <div v-if="item.imgFileIds" class="margin-top-size-nomal">
-                <fileUp :value="item.imgFileIds" upload-type="image" readonly />
+                <FileUp :value="item.imgFileIds" upload-type="image" readonly />
               </div>
               <div class="margin-top-size-nomal text-color-grey tool-bar">
                 <span style="cursor:pointer" class="margin-right-size-large" @click.stop="showTag(item.id,index)">
@@ -228,11 +228,7 @@
 <script>
 import { hotList, getArticleByPlate, getMyArticleCount, getUserSetting, commentList, saveComment, deleteArticle, attentionArticle, likeArticle, topArticle, plateManagerList, likeComment, getMesSummary } from '@/api/index'
 import { arrayToStrWithOutComma } from '@/util/index'
-import fileUp from '@/component/fileUp'
 export default {
-  components: {
-    fileUp
-  },
   data () {
     return {
       userInfo: {
