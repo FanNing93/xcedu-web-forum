@@ -4,7 +4,7 @@
       <el-form-item label="版块名称" :label-width="formLabelWidth" prop="plateName">
         <el-input v-model="form.plateName" placeholder="板块名称（1~10个字符）" />
       </el-form-item>
-      <el-form-item label="管理员" :label-width="formLabelWidth" required>
+      <el-form-item label="管理员" :label-width="formLabelWidth" prop="plateAdminJson">
         <chooseUser
           ref="manager"
           v-model="form.plateAdminJson"
@@ -12,6 +12,7 @@
           :select-role="roles"
           :get-user="getUser"
           :get-search-list="getSearchList"
+          @input="validateField('plateAdminJson')"
         />
       </el-form-item>
     </el-form>
@@ -51,6 +52,9 @@ export default {
           {
             validator: nameValidator
           }
+        ],
+        plateAdminJson: [
+          { type: 'array', required: true, message: '管理员不能为空' }
         ]
       }
     }
@@ -66,6 +70,9 @@ export default {
   methods: {
     getUser: getChooseUserDataByParams,
     getSearchList: getSearchListByValue,
+    validateField (type) {
+      this.$refs.numberValidateForm.validateField(type)
+    },
     saveForm (formName) {
       // 校验表单
       this.$refs[formName].validate((valid) => {
