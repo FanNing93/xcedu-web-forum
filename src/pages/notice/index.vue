@@ -5,7 +5,7 @@
         <span :class="{ color: isNotice }" class="pointer" @click="toggleTab">通知</span>
         <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab">评论</span>
       </div>
-      <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled" infinite-scroll-immediate="false">
+      <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
         <div v-for="(notice,index) in notices" :key="notice.id" class="list-item clearfix">
           <div class="fl margin-right-size-small">
             <el-avatar v-if="notice.noticeAnonymous === 0 && notice.imgUrl" :src="'/api/v1/' + notice.imgUrl + '&access_token=' + accessToken" />
