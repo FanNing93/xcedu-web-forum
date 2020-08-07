@@ -93,31 +93,23 @@ export default {
       params: {
         flag: 0,
         page: 1,
-        pageSize: 10
+        pageSize: 5
       },
       anonymous: false,
       // 总记录数
-      totalRecords: 0,
+      totalRecords: 1,
       accessToken: localStorage.getItem('token')
     }
   },
   computed: {
     noMore () {
-      return (this.params.page - 1) * this.params.pageSize > this.totalRecords
+      return (this.params.page - 1) * this.params.pageSize >= this.totalRecords
     },
     disabled () {
       return this.loading || this.noMore
     }
   },
   mounted: function () {
-    getNoticeList(this.params).then(res => {
-      this.notices = res.records
-      this.totalRecords = res.totalRecords
-      this.params.page += 2
-      getMesSummary().then(res => {
-        this.$store.commit('getNoticeNum', res.messageCount)
-      })
-    })
     getUserSetting().then(res => {
       this.userInfo = {
         userAvator: res.imgUrl,
@@ -132,6 +124,7 @@ export default {
       this.params.pageSize = 5
       this.flushNoticeList().then(res => {
         this.params.page += 1
+        this.totalRecords = res.totalRecords
         this.loading = false
       })
     },
@@ -146,15 +139,11 @@ export default {
       } else {
         this.params.flag = 1
       }
+      this.notices = []
       this.params.page = 1
-      this.params.pageSize = 10
-      getNoticeList(this.params).then(res => {
-        this.notices = res.records
-        this.totalRecords = res.totalRecords
-        this.params.page += 2
-        getMesSummary().then(res => {
-          this.$store.commit('getNoticeNum', res.messageCount)
-        })
+      this.totalRecords = 6
+      getMesSummary().then(res => {
+        this.$store.commit('getNoticeNum', res.messageCount)
       })
     },
     flushNoticeList () {
@@ -162,6 +151,7 @@ export default {
         for (let i = 0; i < res.records.length; i++) {
           this.notices.push(res.records[i])
         }
+        return res
       })
     },
     repSave (topId, commentId, index) {
