@@ -153,21 +153,28 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
           if (this.$route.query.id) {
             updateArticle(this.form).then(res => {
               this.$message.success('修改成功')
+              loading.close()
               this.$router.push({ path: '/mfs-forum' })
+            }).catch(err => {
+              loading.close()
+              this.$message.error(err)
             })
           } else {
             createArticle(this.form).then(res => {
-              // this.$message.success('发布成功').then(() => {
-              //   setTimeout(() => {
-              //     window.close()
-              //   }, 1000)
-              // })
               this.$message.success('发布成功')
+              loading.close()
               this.$router.push({ path: '/mfs-forum' })
             }).catch(err => {
+              loading.close()
               this.$message.error(err)
             })
           }
