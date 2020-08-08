@@ -142,15 +142,15 @@ export default {
       this.notices = []
       this.params.page = 1
       this.totalRecords = 6
-      getMesSummary().then(res => {
-        this.$store.commit('getNoticeNum', res.messageCount)
-      })
     },
     flushNoticeList () {
       return getNoticeList(this.params).then(res => {
         for (let i = 0; i < res.records.length; i++) {
           this.notices.push(res.records[i])
         }
+        getMesSummary().then(res => {
+          this.$store.commit('getNoticeNum', res.messageCount)
+        })
         return res
       })
     },
