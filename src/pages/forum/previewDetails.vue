@@ -112,7 +112,7 @@
                     <span style="margin-left:10px">{{ reply.commentContent }}</span>
                     <div class="text-color-grey" style="margin-top:5px">
                       <span>{{ reply.createdDate }}</span>
-                      <span style="margin-left:10px;cursor:pointer" class="el-icon-chat-line-round" @click="repReply(reply.id,reply.commentTopId,reply.aliasName)" />
+                      <span style="margin-left:10px;cursor:pointer" class="el-icon-chat-line-round" @click="repReply(reply.id,comment.id,reply.aliasName)" />
                     </div>
                   </div>
                   <div style="display:flex">
