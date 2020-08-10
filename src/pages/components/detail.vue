@@ -49,7 +49,7 @@
               </div>
               <div class="margin-top-size-small" style="line-height:24px;margin-top:10px">
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" v-html="item.articleContentShort + ' ...'" />
-                <span v-show="(item.articleContentShort!==null && item.articleContentShort.length<50) || item.expandOpen" v-html="item.articleContent" />
+                <span v-show="(item.articleContentShort!==null && item.articleContentShort.length<50) || item.expandOpen" style="word-wrap: break-word" v-html="item.articleContent" />
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="expand(index)">展开全文</span>
                 <span v-show="item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="retract(index)">收起全文</span>
               </div>
