@@ -546,9 +546,17 @@ export default {
           } else {
             this.pageContent[index].plateTop = topFlag
           }
-          // let item =  this.pageContent[index];
-          //  this.pageContent.splice(index,1)
-          //  this.pageContent.unshift(item)
+          if (topFlag === 1) {
+            const item = this.pageContent[index]
+            this.pageContent.splice(index, 1)
+            this.pageContent.unshift(item)
+          } else {
+            this.pageContent = []
+            this.nomoreState = false
+            this.pageNumber = 1
+            this.recordNum = 0
+            this.load()
+          }
           this.$message({
             message: '操作成功',
             type: 'success'
