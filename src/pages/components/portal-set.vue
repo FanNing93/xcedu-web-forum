@@ -15,6 +15,9 @@
           @input="validateField('plateAdminJson')"
         />
       </el-form-item>
+      <el-form-item label="排序码" :label-width="formLabelWidth" prop="sortNum">
+        <el-input v-model.number="form.sortNum" placeholder="请输入排序码" />
+      </el-form-item>
     </el-form>
     <span slot="footer" style="padding-left: 120px">
       <el-button type="primary" @click="saveForm('numberValidateForm')">确定</el-button>
@@ -24,7 +27,7 @@
 </template>
 <script>
 // import chooseUser from '@/component/chooseUser'
-import { savePlate, detailPlate, updatePlate, getChooseUserDataByParams, getSearchListByValue } from '@/api/index'
+import { savePlate, detailPlate, updatePlate, getChooseUserDataByParams, getSearchListByValue, getLatestSortNum } from '@/api/index'
 function nameValidator (rule, value, callback) {
   if (value.trim() === '') {
     callback(new Error('版块名称不能为空'))
@@ -38,11 +41,27 @@ export default {
     id: { type: String, default: '' }
   },
   data () {
+    var checkSortNum = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入排序码'))
+      }
+      if (!Number.isInteger(value)) {
+        callback(new Error('请输入正整数'))
+      } else {
+        if (value < 0) {
+          callback(new Error('排序码不能为负数'))
+        } else {
+          callback()
+        }
+      }
+    }
+
     return {
       formLabelWidth: '120px',
       form: {
         plateName: '',
-        plateAdminJson: []
+        plateAdminJson: [],
+        sortNum: 0
       },
       roles: ['orgUser'],
       rules: {
@@ -55,7 +74,10 @@ export default {
         ],
         plateAdminJson: [
           { type: 'array', required: true, message: '管理员不能为空' }
-        ]
+        ],
+        sortNum: [{
+          validator: checkSortNum, required: true, trigger: 'blur'
+        }]
       }
     }
   },
@@ -64,6 +86,11 @@ export default {
       detailPlate({ id: this.id }).then(res => {
         this.form.plateName = res.plateName
         this.form.plateAdminJson = JSON.parse(res.plateAdminJson)
+      })
+    } else {
+      getLatestSortNum().then(res => {
+        window.console.log(res)
+        this.form.sortNum = res
       })
     }
   },

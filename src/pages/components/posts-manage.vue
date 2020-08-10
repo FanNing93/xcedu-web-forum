@@ -61,7 +61,7 @@
         <el-table-column fixed prop="articleTitle" label="标题" min-width="300px" />
         <el-table-column prop="plateName" label="所属版块" />
         <el-table-column prop="aliasName" label="发布人" />
-        <el-table-column prop="pubDate" label="发布时间" min-width="150px" />
+        <el-table-column prop="pubDate" label="发布时间" width="150px" />
         <el-table-column prop="readNum" label="阅读" />
         <el-table-column label="操作" width="80px" fixed="right" prop="operate">
           <template slot-scope="scope">

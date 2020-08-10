@@ -72,6 +72,11 @@ export function deletePlateById (params) {
   return axios.get(prefix + '/advise/plate/delete', { params: params })
 }
 
+// 获取最新板块排序码
+export function getLatestSortNum () {
+  return axios.get(prefix + '/advise/plate/getLatestSortNum')
+}
+
 // --------------------------------评论相关接口-------------------------------
 
 // 获取帖子的评论列表

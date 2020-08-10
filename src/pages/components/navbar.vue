@@ -9,7 +9,7 @@
           <template slot="title">更多</template>
           <el-menu-item v-for="foldPlate in foldPlateList" :key="foldPlate.id" :index="foldPlate.id" :platename="foldPlate.plateName">{{ foldPlate.plateName }}</el-menu-item>
         </el-submenu>
-        <el-menu-item v-if="isAdmin || userPlateList.length>0" index="-1"><a>管理</a></el-menu-item>
+        <el-menu-item v-if="isAdmin || userPlateList.length>0" index="-1">管理</el-menu-item>
       </el-menu>
       <div>
         <el-button type="primary " @click="newArticle">内容发布</el-button>
@@ -45,7 +45,8 @@ export default {
       foldPlateList: [],
       isAdmin: false,
       userPlateList: [],
-      title: ''
+      title: '',
+      tabs: 1
       // flag: this.$store.state.header
     }
   },
@@ -92,24 +93,36 @@ export default {
       })
     },
     handleSelect (key, keyPath, e) {
+      this.tabs++
       if (key === '-1') {
         this.$router.replace({
           path: '/mfs-forum/super-manage',
           query: {
-            index: key
+            index: key,
+            tabs: this.tabs
           }
+        }).catch((err) => {
+          window.console.log(err)
         })
       } else if (key === '0') {
         this.$router.replace({
-          path: '/mfs-forum/home/newest'
+          path: '/mfs-forum/home/newest',
+          query: {
+            tabs: this.tabs
+          }
+        }).catch((err) => {
+          window.console.log(err)
         })
       } else {
         this.$router.replace({
           path: '/mfs-forum/home/newest',
           query: {
             index: key,
-            plateName: e.$attrs.platename
+            plateName: e.$attrs.platename,
+            tabs: this.tabs
           }
+        }).catch((err) => {
+          window.console.log(err)
         })
       }
     },

@@ -185,8 +185,8 @@
     <el-card v-if="isIndexPage" class="box-card-right1 text-color-grey">
       <div class="text item bghover dss" @click="getArticle('myPub',$event)">
         <div>
-          <i class="icon-send" :class="myClick === '我发送的' ? 'color' : 'text-color-grey'" />
-          <span id="myPub" :class="myClick === '我发送的' ? 'color' : ''">我发送的</span>
+          <i class="icon-send" :class="myClick === '我发布的' ? 'color' : 'text-color-grey'" />
+          <span id="myPub" :class="myClick === '我发布的' ? 'color' : ''">我发布的</span>
         </div>
         <el-tag type="info" size="small " class="bgfff">{{ myCount.publishCount }}</el-tag>
       </div>
