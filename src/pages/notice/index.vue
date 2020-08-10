@@ -2,7 +2,7 @@
   <section class="layout-list-content padding-top-size-nomal padding-bottom-size-nomal" style="overflow:auto">
     <el-card class="margin-lr-auto" style="width: 840px;">
       <div slot="header">
-        <span :class="{ color: isNotice }" class="pointer" @click="toggleTab">通知</span>
+        <span :class="{ color: isNotice } " class="pointer" @click="toggleTab">通知</span>
         <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab">评论</span>
       </div>
       <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
@@ -207,4 +207,8 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
 </style>

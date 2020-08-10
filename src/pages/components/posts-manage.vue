@@ -71,7 +71,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="del">删除</el-dropdown-item>
-                <el-dropdown-item v-show="scope.row.userIsAdmin" command="forumTop"><span v-show="scope.row.forumTop">取消</span>全论坛置顶</el-dropdown-item>
+                <el-dropdown-item v-show="scope.row.userIsAdmin" command="forumTop"><span v-show="scope.row.forumTop">取消</span>论坛置顶</el-dropdown-item>
                 <el-dropdown-item command="plateTop"><span v-show="scope.row.plateTop">取消</span>版块置顶</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
