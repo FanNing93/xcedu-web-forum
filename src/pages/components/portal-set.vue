@@ -114,7 +114,8 @@ export default {
       const params = {
         id: this.id,
         plateName: this.form.plateName,
-        plateAdminJson: JSON.stringify(this.form.plateAdminJson)
+        plateAdminJson: JSON.stringify(this.form.plateAdminJson),
+        sortNum: this.form.sortNum
       }
       // 提交表单 成功后返回列表
       if (this.id === '') {
