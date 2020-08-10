@@ -28,18 +28,19 @@
       <el-form-item label="" prop="articleContent">
         <editor v-model="form.articleContent" />
       </el-form-item>
+      <el-form-item label="匿名发帖">
+        <el-checkbox
+          v-model="checked"
+          @change="changeAnonymous"
+        />
+      </el-form-item>
       <el-form-item label="相关图片">
         <FileUp
           v-model="form.imgFileIds"
           upload-type="image"
           :domain-id="domainId"
           dir="forum"
-        />
-      </el-form-item>
-      <el-form-item label="匿名发帖">
-        <el-checkbox
-          v-model="checked"
-          @change="changeAnonymous"
+          style="padding-top:5px"
         />
       </el-form-item>
     </el-form>

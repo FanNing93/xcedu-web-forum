@@ -82,7 +82,7 @@
           </el-row>
           <div class="fa-more replay margin-top-size-nomal" style="margin-top: 20px; margin-left: -20px; margin-right: -20px;">
             <transition name="el-fade-in-linear">
-              <el-card v-show="tag[index]" ref="operate" style="border: 0 none; box-shadow:inset 1px 3px 3px rgba(0,0,0,.05)">
+              <el-card v-show="tag[index]" ref="operate" style="border: 0 none; box-shadow:inset 1px 1px 1px rgba(0,0,0,.05)">
                 <!-- <div class="top" /> -->
                 <div style="display:flex">
                   <el-col :span="2" class="mr-10">
@@ -122,12 +122,12 @@
                       <div>
                         <span style="cursor:pointer" @click="reflex(comment.id,comment.aliasName,num)">回复({{ comment.commentVoList.length }})</span>
                         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                        <span v-show="comment.userHasLike">
-                          <i class="icon-zan-shixin red" @click="likeComment(num,comment.id,0)" />
+                        <span v-show="comment.userHasLike" style="cursor:pointer" @click="likeComment(num,comment.id,0)">
+                          <i class="icon-zan-shixin red" />
                           <span>&nbsp;&nbsp;{{ comment.commentLikeNum == null ? 0 : comment.commentLikeNum }}</span>
                         </span>
-                        <span v-show="!comment.userHasLike">
-                          <i class="icon-zan" @click="likeComment(num,comment.id,1)" />
+                        <span v-show="!comment.userHasLike" style="cursor:pointer" @click="likeComment(num,comment.id,1)">
+                          <i class="icon-zan" />
                           <span>&nbsp;&nbsp;{{ comment.commentLikeNum == null ? 0 : comment.commentLikeNum }}</span>
                         </span>
                       </div>

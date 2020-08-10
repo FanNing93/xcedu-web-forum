@@ -42,7 +42,7 @@ export default {
   },
   data () {
     var checkSortNum = (rule, value, callback) => {
-      if (!value) {
+      if (!value && value !== 0) {
         return callback(new Error('请输入排序码'))
       }
       if (!Number.isInteger(value)) {
