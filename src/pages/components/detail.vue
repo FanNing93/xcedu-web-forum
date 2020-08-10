@@ -359,7 +359,7 @@ export default {
             message: '回复成功',
             type: 'success'
           })
-          this.commentList[num].commentVoList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentAliasName: this.repName, imgUrl: this.userInfo.userAvator })
+          this.commentList[num].commentVoList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentAliasName: this.repName, imgUrl: this.userInfo.userAvator, userHasLike: false, commentLikeNum: 0 })
           this.repChecked = false
           this.repInput = ''
           // 回复时刷新通知数量
@@ -384,7 +384,7 @@ export default {
             type: 'success'
           })
           this.pageContent[index].commentNum++
-          this.commentList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator })
+          this.commentList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator, userHasLike: false, commentLikeNum: 0 })
           this.getMyArticleCount()
           // 评论时刷新通知数量
           this.flushNoitceNum()
