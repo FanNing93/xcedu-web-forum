@@ -7,7 +7,7 @@
       </div>
       <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
         <div v-for="(item,index) in pageContent" :key="index" class="text item list-item">
-          <el-row>
+          <el-row class="boxHeight">
             <el-col :span="2">
               <div>
                 <el-avatar v-if="item.anonymous === 0 && item.imgUrl" :src="'/api/v1/' + item.imgUrl + '&access_token=' + accessToken" />
@@ -49,7 +49,7 @@
               </div>
               <div class="margin-top-size-small" style="line-height:24px;margin-top:10px">
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" v-html="item.articleContentShort + ' ...'" />
-                <span v-show="(item.articleContentShort!==null && item.articleContentShort.length<50) || item.expandOpen" v-html="item.articleContent" />
+                <span v-show="(item.articleContentShort!==null && item.articleContentShort.length<50) || item.expandOpen" style="word-wrap: break-word" v-html="item.articleContent" />
                 <span v-show="item.articleContentShort && item.articleContentShort.length>=50 && !item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="expand(index)">展开全文</span>
                 <span v-show="item.expandOpen" class="color" style="cursor:pointer;margin-left:5px" @click="retract(index)">收起全文</span>
               </div>
@@ -263,7 +263,8 @@ export default {
       repTopId: '',
       repName: '',
       myClick: '',
-      likeClickState: true
+      likeClickState: true,
+      boxScrolltop: 0
     }
   },
   computed: {
@@ -310,6 +311,7 @@ export default {
     document.removeEventListener('click', this.handleClick, false)
   },
   methods: {
+
     preViewDetails (id) {
       const { href } = this.$router.resolve({ name: 'previewDetails' })
       window.open(href + '?id=' + id, '_self')
@@ -357,7 +359,7 @@ export default {
             message: '回复成功',
             type: 'success'
           })
-          this.commentList[num].commentVoList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentAliasName: this.repName, imgUrl: this.userInfo.userAvator })
+          this.commentList[num].commentVoList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentAliasName: this.repName, imgUrl: this.userInfo.userAvator, userHasLike: false, commentLikeNum: 0 })
           this.repChecked = false
           this.repInput = ''
           // 回复时刷新通知数量
@@ -382,7 +384,7 @@ export default {
             type: 'success'
           })
           this.pageContent[index].commentNum++
-          this.commentList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator })
+          this.commentList.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator, userHasLike: false, commentLikeNum: 0 })
           this.getMyArticleCount()
           // 评论时刷新通知数量
           this.flushNoitceNum()
@@ -544,9 +546,17 @@ export default {
           } else {
             this.pageContent[index].plateTop = topFlag
           }
-          // let item =  this.pageContent[index];
-          //  this.pageContent.splice(index,1)
-          //  this.pageContent.unshift(item)
+          if (topFlag === 1) {
+            const item = this.pageContent[index]
+            this.pageContent.splice(index, 1)
+            this.pageContent.unshift(item)
+          } else {
+            this.pageContent = []
+            this.nomoreState = false
+            this.pageNumber = 1
+            this.recordNum = 0
+            this.load()
+          }
           this.$message({
             message: '操作成功',
             type: 'success'
