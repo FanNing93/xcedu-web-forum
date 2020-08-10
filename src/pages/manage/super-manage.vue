@@ -35,7 +35,6 @@ export default {
   created: function () {
     userManagePlate().then(res => {
       this.isAdmin = res.isAdmin
-      window.console.log('>>>>>>>' + this.isAdmin)
     })
   },
   methods: {
