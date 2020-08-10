@@ -2,8 +2,12 @@
   <section class="layout-list-content padding-top-size-nomal padding-bottom-size-nomal" style="overflow:auto">
     <el-card class="margin-lr-auto" style="width: 840px;">
       <div slot="header">
-        <span :class="{ color: isNotice } " class="pointer" @click="toggleTab">通知</span>
-        <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab">评论</span>
+        <el-badge :value="mesSummary.noticeSum == 0? '' :mesSummary.noticeSum" :max="99" class="item">
+          <span :class="{ color: isNotice }" class="pointer" @click="toggleTab">通知</span>
+        </el-badge>
+        <el-badge :value="mesSummary.commentSum == 0? '' :mesSummary.commentSum" :max="99" class="item">
+          <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab">评论</span>
+        </el-badge>
       </div>
       <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
         <div v-for="(notice,index) in notices" :key="notice.id" class="list-item clearfix">
@@ -98,6 +102,11 @@ export default {
       anonymous: false,
       // 总记录数
       totalRecords: 1,
+      mesSummary: {
+        commentSum: 0,
+        messageCount: 0,
+        noticeSum: 0
+      },
       accessToken: localStorage.getItem('token')
     }
   },
@@ -149,6 +158,7 @@ export default {
           this.notices.push(res.records[i])
         }
         getMesSummary().then(res => {
+          this.mesSummary = res
           this.$store.commit('getNoticeNum', res.messageCount)
         })
         return res
@@ -207,8 +217,9 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
+  .item {
+  margin-top: 0px;
+  margin-right: 10px;
+  margin-bottom:0
 }
 </style>

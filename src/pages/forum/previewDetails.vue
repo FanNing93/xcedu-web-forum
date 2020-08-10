@@ -180,13 +180,24 @@ export default {
   },
   methods: {
     deleteArticle () {
-      deleteArticle({ ids: arrayToStrWithOutComma(this.article.id.split(',')) }).then(res => {
-        if (!res) {
-          this.$message.error('删除失败，请稍后再试')
-        } else {
-          this.$message.success('删除成功')
-          this.$router.push({ name: 'home' })
-        }
+      this.$confirm('此操作将删除该帖子, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteArticle({ ids: arrayToStrWithOutComma(this.article.id.split(',')) }).then(res => {
+          if (!res) {
+            this.$message.error('删除失败，请稍后再试')
+          } else {
+            this.$message.success('删除成功')
+            this.$router.push({ name: 'home' })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
     goBacktToHome () {
@@ -219,7 +230,7 @@ export default {
         if (res) {
           this.$message.success('评论成功')
           this.article.commentNum++
-          this.comments.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator })
+          this.comments.push({ id: res.id, aliasName: res.aliasName, anonymous: res.anonymous, commentContent: res.commentContent, createdDate: '刚刚', commentVoList: [], imgUrl: this.userInfo.userAvator, userHasLike: false, commentLikeNum: 0 })
           this.commentInput = ''
         } else {
           this.$message.error('评论保存失败')
