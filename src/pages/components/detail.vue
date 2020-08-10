@@ -7,7 +7,7 @@
       </div>
       <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
         <div v-for="(item,index) in pageContent" :key="index" class="text item list-item">
-          <el-row>
+          <el-row class="boxHeight">
             <el-col :span="2">
               <div>
                 <el-avatar v-if="item.anonymous === 0 && item.imgUrl" :src="'/api/v1/' + item.imgUrl + '&access_token=' + accessToken" />
@@ -263,7 +263,8 @@ export default {
       repTopId: '',
       repName: '',
       myClick: '',
-      likeClickState: true
+      likeClickState: true,
+      boxScrolltop: 0
     }
   },
   computed: {
@@ -310,6 +311,7 @@ export default {
     document.removeEventListener('click', this.handleClick, false)
   },
   methods: {
+
     preViewDetails (id) {
       const { href } = this.$router.resolve({ name: 'previewDetails' })
       window.open(href + '?id=' + id, '_self')
