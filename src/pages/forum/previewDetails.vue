@@ -92,12 +92,12 @@
                   <div>
                     <span style="cursor:pointer" @click="reflex(comment.id,comment.aliasName,num)">回复（{{ comment.commentVoList.length }}）</span>
                     <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                    <span v-show="comment.userHasLike">
-                      <i class="icon-zan-shixin red" @click="likeComment(num,comment.id,0)" />
+                    <span v-show="comment.userHasLike" style="cursor:pointer" @click="likeComment(num,comment.id,0)">
+                      <i class="icon-zan-shixin red" />
                       <span>&nbsp;&nbsp;{{ comment.commentLikeNum == null ? 0 : comment.commentLikeNum }}</span>
                     </span>
-                    <span v-show="!comment.userHasLike">
-                      <i class="icon-zan" @click="likeComment(num,comment.id,1)" />
+                    <span v-show="!comment.userHasLike" style="cursor:pointer" @click="likeComment(num,comment.id,1)">
+                      <i class="icon-zan" />
                       <span>&nbsp;&nbsp;{{ comment.commentLikeNum == null ? 0 : comment.commentLikeNum }}</span>
                     </span>
                   </div>

@@ -42,7 +42,7 @@ export default {
   },
   data () {
     var checkSortNum = (rule, value, callback) => {
-      if (!value) {
+      if (!value && value !== 0) {
         return callback(new Error('请输入排序码'))
       }
       if (!Number.isInteger(value)) {
@@ -85,12 +85,13 @@ export default {
     if (this.id !== '') {
       detailPlate({ id: this.id }).then(res => {
         this.form.plateName = res.plateName
+        this.form.sortNum = res.sortNum
         this.form.plateAdminJson = JSON.parse(res.plateAdminJson)
       })
     } else {
       getLatestSortNum().then(res => {
         window.console.log(res)
-        this.form.sortNum = res
+        this.form.sortNum = res + 1
       })
     }
   },
@@ -114,7 +115,8 @@ export default {
       const params = {
         id: this.id,
         plateName: this.form.plateName,
-        plateAdminJson: JSON.stringify(this.form.plateAdminJson)
+        plateAdminJson: JSON.stringify(this.form.plateAdminJson),
+        sortNum: this.form.sortNum
       }
       // 提交表单 成功后返回列表
       if (this.id === '') {
