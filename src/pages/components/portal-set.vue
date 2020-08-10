@@ -85,12 +85,13 @@ export default {
     if (this.id !== '') {
       detailPlate({ id: this.id }).then(res => {
         this.form.plateName = res.plateName
+        this.form.sortNum = res.sortNum
         this.form.plateAdminJson = JSON.parse(res.plateAdminJson)
       })
     } else {
       getLatestSortNum().then(res => {
         window.console.log(res)
-        this.form.sortNum = res
+        this.form.sortNum = res + 1
       })
     }
   },
