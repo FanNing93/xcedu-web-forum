@@ -18,7 +18,7 @@
           <el-button type="default" @click="goBacktToHome">返回首页</el-button>
         </div>
       </div>
-      <div style="padding:10px;font-size:20px" v-html="article.articleTitle" />
+      <div style="padding:10px;font-size:20px;font-weight: bold" v-html="article.articleTitle" />
       <div style="padding:10px;text-indent: 25px;line-height: 20px;" v-html="article.articleContent" />
       <div />
 
@@ -26,7 +26,7 @@
         <div style="color:#3396fc">
           <!-- <span v-show="article.userIsAdmin" class="operate" @click="edit">编辑</span> -->
           <span v-show="article.userIsAdmin||article.userIsAuthor" class="operate" @click="deleteArticle">删除</span>
-          <span v-show="article.userIsAdmin && article.forumTop === 0" class="operate" @click="topArticle('forum',1)">全论坛置顶</span>
+          <span v-show="article.userIsAdmin && article.forumTop === 0" class="operate" @click="topArticle('forum',1)">论坛置顶</span>
           <span v-show="article.userIsAdmin && article.forumTop === 1" class="operate" @click="topArticle('forum',0)">取消论坛置顶</span>
           <span v-show="article.userIsAdmin && article.plateTop === 0" class="operate" @click="topArticle('plate',1)">板块置顶</span>
           <span v-show="article.userIsAdmin && article.plateTop ===1" class="operate" @click="topArticle('plate',0)">取消板块置顶</span>

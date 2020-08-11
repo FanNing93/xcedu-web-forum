@@ -131,9 +131,6 @@ export default {
         path: '/mfs-forum/notice'
       })
     },
-    refreshByPlate (plateId) {
-
-    },
     newArticle () {
       const { href } = this.$router.resolve({ name: 'newArtical' })
       window.open(href, '_self')

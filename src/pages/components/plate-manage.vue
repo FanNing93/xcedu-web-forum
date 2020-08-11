@@ -27,7 +27,7 @@
         <el-table-column label="操作" width="80px" fixed="right">
           <template slot-scope="scope">
             <!-- <el-button type="text" size="small" @click="handleClick(scope.row)">删除</el-button> -->
-            <!-- <el-button type="text" size="small">全论坛置顶</el-button> -->
+            <!-- <el-button type="text" size="small">论坛置顶</el-button> -->
             <!-- <el-button type="text" size="small">版块置顶</el-button> -->
             <el-dropdown trigger="click" @command="title => choose(title, scope.row)">
               <span class="el-dropdown-link">
