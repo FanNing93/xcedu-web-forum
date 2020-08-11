@@ -1,5 +1,5 @@
 <template>
-  <section class="layout-list-content padding-top-size-nomal padding-bottom-size-nomal" style="overflow:auto">
+  <section class="layout-list-content padding-top-size-nomal padding-bottom-size-nomal" style="height: 100%; overflow:auto;">
     <el-card class="margin-lr-auto" style="width: 840px;">
       <div slot="header">
         <el-badge :value="mesSummary.noticeSum == 0? '' :mesSummary.noticeSum" :max="99" class="item">
@@ -155,7 +155,8 @@ export default {
       }
       this.notices = []
       this.params.page = 1
-      this.totalRecords = 1
+      this.totalRecords = 0
+      this.load()
     },
     flushNoticeList () {
       const flag = this.isNotice
