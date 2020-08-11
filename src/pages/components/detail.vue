@@ -169,7 +169,7 @@
       </div>
     </el-card>
 
-    <el-card v-if="!isIndexPage" class="box-card-right1 text-color-grey">
+    <el-card v-if="!pageIsIndex" class="box-card-right1 text-color-grey">
       <div slot="header" class="dss">
         <div style="font-size:14px;color:#999">管理员</div>
       </div>
@@ -182,7 +182,7 @@
       </div>
     </el-card>
 
-    <el-card v-if="isIndexPage" class="box-card-right1 text-color-grey">
+    <el-card v-if="pageIsIndex" class="box-card-right1 text-color-grey">
       <div class="text item bghover dss" @click="getArticle('myPub',$event)">
         <div>
           <i class="icon-send" :class="myClick === '我发布的' ? 'color' : 'text-color-grey'" />
@@ -205,7 +205,7 @@
         <el-tag type="info" size="small " class="bgfff">{{ myCount.attentionCount }}</el-tag>
       </div>
     </el-card>
-    <el-card v-if="isIndexPage" class="box-card-right2">
+    <el-card v-if="pageIsIndex" class="box-card-right2">
       <div slot="header" class="clearfix">
         <span style="font-weight:bold;font-size:16px;color:#999">热门</span>
         <!-- <el-button style="float: right; padding: 3px 0;color:#3396FC" type="text">去论坛逛逛>></el-button> -->
@@ -273,6 +273,9 @@ export default {
     },
     disabled () {
       return this.loading || this.nomoreState
+    },
+    pageIsIndex () {
+      return this.isIndexPage && !this.$route.query.index
     }
   },
   watch: {
@@ -282,16 +285,16 @@ export default {
       this.pageFlag = ''
       const plateId = to.query.index
       this.pageContent = []
-      this.plateManager = []
+
       this.pageNumber = 1
       this.recordNum = 0
+      window.console.log(plateId)
       if (plateId === undefined || plateId === '') {
         this.isIndexPage = true
         this.plateId = ''
       } else {
         this.isIndexPage = false
         this.plateId = plateId
-        this.plateManagerList(this.plateId)
       }
       this.load()
     }
@@ -615,6 +618,8 @@ export default {
         this.plateId = ''
       } else {
         this.plateId = this.$route.query.index
+        this.plateManager = []
+        this.plateManagerList(this.plateId)
       }
       let orderType = 0
       if (this.plateId === '') {
