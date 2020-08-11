@@ -601,6 +601,8 @@ export default {
       this.pageContent[index].expandOpen = true
     },
     retract (index) {
+      const boxHeight = document.querySelectorAll('.boxHeight')[index]
+      document.querySelector('.home').scrollTop = document.querySelector('.home').scrollTop - parseInt(window.getComputedStyle(boxHeight).getPropertyValue('height'))
       this.pageContent[index].expandOpen = false
     },
     discuss () {
