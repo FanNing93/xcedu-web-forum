@@ -9,7 +9,7 @@
           <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab(false)">评论</span>
         </el-badge>
       </div>
-      <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
+      <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled" style="overflow:auto">
         <div v-for="(notice,index) in notices" :key="notice.id" class="list-item clearfix">
           <div class="fl margin-right-size-small">
             <el-avatar v-if="notice.noticeAnonymous === 0 && notice.imgUrl" :src="'/api/v1/' + notice.imgUrl + '&access_token=' + accessToken" />
@@ -101,7 +101,7 @@ export default {
       },
       anonymous: false,
       // 总记录数
-      totalRecords: 1,
+      totalRecords: 6,
       mesSummary: {
         commentSum: 0,
         messageCount: 0,
