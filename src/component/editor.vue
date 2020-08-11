@@ -14,13 +14,15 @@
           'undo redo | formatselect | bold italic backcolor | \
           alignleft aligncenter alignright alignjustify | \
           bullist numlist outdent indent | removeformat | \
-          image',
+          image | wordcount',
         plugins: [
-          'image'
+          'image', 'wordcount'
         ],
         image_description: false,
         images_reuse_filename: true,
-        images_upload_handler: fileUpLoad
+        images_upload_handler: fileUpLoad,
+        elementpath: false,
+        branding: false
       }"
       @input="editorChange"
     />
@@ -36,6 +38,7 @@ import 'tinymce/icons/default'
 import 'tinymce/themes/silver'
 // Any plugins you want to use has to be imported
 import 'tinymce/plugins/image'
+import 'tinymce/plugins/wordcount'
 import Editor from '@tinymce/tinymce-vue'
 
 import OSS from 'ali-oss'
