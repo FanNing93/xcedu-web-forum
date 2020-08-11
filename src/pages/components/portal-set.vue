@@ -2,7 +2,7 @@
   <section class="padding-left-size-nomal padding-right-size-nomal padding-bottom-size-large">
     <el-form ref="numberValidateForm" :model="form" :rules="rules" size="medium">
       <el-form-item label="版块名称" :label-width="formLabelWidth" prop="plateName">
-        <el-input v-model="form.plateName" placeholder="板块名称（1~10个字符）" />
+        <el-input v-model="form.plateName" placeholder="版块名称（1~10个字符）" />
       </el-form-item>
       <el-form-item label="管理员" :label-width="formLabelWidth" prop="plateAdminJson">
         <chooseUser
