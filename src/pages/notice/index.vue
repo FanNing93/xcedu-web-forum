@@ -3,10 +3,10 @@
     <el-card class="margin-lr-auto" style="width: 840px;">
       <div slot="header">
         <el-badge :value="mesSummary.noticeSum == 0? '' :mesSummary.noticeSum" :max="99" class="item">
-          <span :class="{ color: isNotice }" class="pointer" @click="toggleTab">通知</span>
+          <span :class="{ color: isNotice }" class="pointer" @click="toggleTab(true)">通知</span>
         </el-badge>
         <el-badge :value="mesSummary.commentSum == 0? '' :mesSummary.commentSum" :max="99" class="item">
-          <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab">评论</span>
+          <span :class="{ color: !isNotice }" class="pointer margin-left-size-large" @click="toggleTab(false)">评论</span>
         </el-badge>
       </div>
       <div v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
@@ -130,18 +130,23 @@ export default {
   methods: {
     load () {
       this.loading = true
-      this.params.pageSize = 5
       this.flushNoticeList().then(res => {
         this.params.page += 1
         this.totalRecords = res.totalRecords
         this.loading = false
+      }).catch((err) => {
+        this.loading = false
+        window.console.log(err)
       })
     },
     preViewDetails (id) {
       const { href } = this.$router.resolve({ name: 'previewDetails' })
       window.open(href + '?id=' + id, '_self')
     },
-    toggleTab () {
+    toggleTab (type) {
+      if (type === this.isNotice) {
+        return
+      }
       this.isNotice = !this.isNotice
       if (this.isNotice) {
         this.params.flag = 0
@@ -150,10 +155,14 @@ export default {
       }
       this.notices = []
       this.params.page = 1
-      this.totalRecords = 6
+      this.totalRecords = 1
     },
     flushNoticeList () {
+      const flag = this.isNotice
       return getNoticeList(this.params).then(res => {
+        if (flag !== this.isNotice) {
+          return Promise.reject(new Error('fail'))
+        }
         for (let i = 0; i < res.records.length; i++) {
           this.notices.push(res.records[i])
         }
@@ -219,7 +228,7 @@ export default {
   }
   .item {
   margin-top: 0px;
-  margin-right: 10px;
+  padding-right: 10px;
   margin-bottom:0
 }
 </style>

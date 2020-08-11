@@ -18,7 +18,7 @@
           <el-button type="default" @click="goBacktToHome">返回首页</el-button>
         </div>
       </div>
-      <div style="padding:10px;font-size:20px" v-html="article.articleTitle" />
+      <div style="padding:10px;font-size:20px;font-weight: bold" v-html="article.articleTitle" />
       <div style="padding:10px;text-indent: 25px;line-height: 20px;" v-html="article.articleContent" />
       <div />
 
