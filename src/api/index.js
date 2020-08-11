@@ -22,6 +22,10 @@ export function getUserSetting () {
   return axios.get(prefix + '/advise/user/setting/getUserSetting')
 }
 
+export function getUserInfoById (params) {
+  return axios.get(prefix + '/advise/user/setting/getUserInfoById', { params })
+}
+
 // ------------------------版块管理相关接口---------------------
 // 新增版块
 export function createPlate (form) {
