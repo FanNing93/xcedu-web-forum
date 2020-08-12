@@ -1,5 +1,5 @@
 <template>
-  <section class="padding-left-size-nomal padding-right-size-nomal padding-bottom-size-large ">
+  <section class="padding-left-size-nomal padding-right-size-nomal padding-bottom-size-large posts">
     <header>
       <div class="dss">
         <div class="ds">
@@ -70,10 +70,10 @@
                 <i class="el-icon-more" style="cursor:pointer" @click="handleClick(scope.row)" />
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="authorInfo">发布人信息</el-dropdown-item>
                 <el-dropdown-item command="del">删除</el-dropdown-item>
                 <el-dropdown-item v-show="scope.row.userIsAdmin" command="forumTop"><span v-show="scope.row.forumTop">取消</span>论坛置顶</el-dropdown-item>
                 <el-dropdown-item command="plateTop"><span v-show="scope.row.plateTop">取消</span>版块置顶</el-dropdown-item>
+                <el-dropdown-item v-show="scope.row.userIsAdmin && scope.row.anonymous === 1" command="authorInfo">发布人信息</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </template>
@@ -92,11 +92,8 @@
         />
       </div>
     </div>
-    <el-dialog title="发帖人信息" :visible.sync="userVisible">
+    <el-dialog title="实际发布人" width="18%" :visible.sync="userVisible" :modal="false">
       <span>{{ userInfo.userName }}</span>
-      <span>{{ userInfo.aliasName }}</span>
-      <span>{{ userInfo.gender === 0 ? '男' :'女' }}</span>
-      <span>{{ userInfo.avator }}</span>
     </el-dialog>
   </section>
 </template>
@@ -411,5 +408,17 @@ export default {
 }
 .manage >>> .el-dialog__wrapper .el-dialog {
   margin-top: -150px !important;
+}
+
+.posts >>> .el-dialog__header{
+  border-bottom:none!important;
+}
+
+.posts >>> .el-dialog__title{
+  font-size:14px
+}
+
+.posts >>> .el-dialog__body{
+  padding:10px 20px 20px 20px
 }
 </style>

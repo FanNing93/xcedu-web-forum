@@ -32,6 +32,11 @@ export function createPlate (form) {
   return axios.post(prefix + '/advise/plate/create', form)
 }
 
+// 判断板块名称是否存在
+export function plateNameIsExist (params) {
+  return axios.get(prefix + '/advise/plate/plateNameIsExist', { params: params })
+}
+
 // 保存版块
 export function savePlate (form) {
   return axios.post(prefix + '/advise/plate/save', form)
