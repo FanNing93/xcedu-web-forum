@@ -54,7 +54,7 @@ export default {
       } else {
         plateNameIsExist({ plateName: this.form.plateName }).then(res => {
           if (res) {
-            callback(new Error('板块名称已重复，请重新输入'))
+            callback(new Error('版块名称已重复，请重新输入'))
           } else {
             callback()
           }

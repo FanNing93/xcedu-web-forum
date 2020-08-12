@@ -32,7 +32,7 @@ export function createPlate (form) {
   return axios.post(prefix + '/advise/plate/create', form)
 }
 
-// 判断板块名称是否存在
+// 判断版块名称是否存在
 export function plateNameIsExist (params) {
   return axios.get(prefix + '/advise/plate/plateNameIsExist', { params: params })
 }
@@ -81,7 +81,7 @@ export function deletePlateById (params) {
   return axios.get(prefix + '/advise/plate/delete', { params: params })
 }
 
-// 获取最新板块排序码
+// 获取最新版块排序码
 export function getLatestSortNum () {
   return axios.get(prefix + '/advise/plate/getLatestSortNum')
 }
