@@ -27,14 +27,7 @@
 </template>
 <script>
 // import chooseUser from '@/component/chooseUser'
-import { savePlate, detailPlate, updatePlate, getChooseUserDataByParams, getSearchListByValue, getLatestSortNum } from '@/api/index'
-function nameValidator (rule, value, callback) {
-  if (value.trim() === '') {
-    callback(new Error('版块名称不能为空'))
-  } else {
-    callback()
-  }
-}
+import { savePlate, detailPlate, updatePlate, plateNameIsExist, getChooseUserDataByParams, getSearchListByValue, getLatestSortNum } from '@/api/index'
 export default {
   name: 'PortalSet',
   props: {
@@ -55,7 +48,19 @@ export default {
         }
       }
     }
-
+    var nameValidator = (rule, value, callback) => {
+      if (value.trim() === '') {
+        callback(new Error('版块名称不能为空'))
+      } else {
+        plateNameIsExist({ plateName: this.form.plateName }).then(res => {
+          if (res) {
+            callback(new Error('版块名称已重复，请重新输入'))
+          } else {
+            callback()
+          }
+        })
+      }
+    }
     return {
       formLabelWidth: '120px',
       form: {
@@ -69,7 +74,7 @@ export default {
           { required: true, message: '版块名称不能为空', trigger: 'blur' },
           { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' },
           {
-            validator: nameValidator
+            validator: nameValidator, trigger: 'blur'
           }
         ],
         plateAdminJson: [

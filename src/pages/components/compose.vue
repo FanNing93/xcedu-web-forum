@@ -26,7 +26,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="" prop="articleContent">
-        <editor v-model="form.articleContent" />
+        <Editor v-model="form.articleContent" />
       </el-form-item>
       <el-form-item label="匿名发帖">
         <el-checkbox
@@ -48,8 +48,6 @@
 </template>
 <script>
 import { getUserInfo, createArticle, updateArticle, getNoPubArticle, getPlateList } from '@/api/index'
-// import fileUp from '@/component/fileUp'
-import editor from '@/component/editor'
 function nameValidator (rule, value, callback) {
   if (!value || value.trim() === '') {
     callback(new Error('标题不能为空'))
@@ -58,10 +56,6 @@ function nameValidator (rule, value, callback) {
   }
 }
 export default {
-  components: {
-    // fileUp,
-    editor
-  },
   props: {
     flag: {
       type: Number,

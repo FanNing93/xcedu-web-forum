@@ -28,8 +28,8 @@
           <span v-show="article.userIsAdmin||article.userIsAuthor" class="operate" @click="deleteArticle">删除</span>
           <span v-show="article.userIsAdmin && article.forumTop === 0" class="operate" @click="topArticle('forum',1)">论坛置顶</span>
           <span v-show="article.userIsAdmin && article.forumTop === 1" class="operate" @click="topArticle('forum',0)">取消论坛置顶</span>
-          <span v-show="article.userIsAdmin && article.plateTop === 0" class="operate" @click="topArticle('plate',1)">板块置顶</span>
-          <span v-show="article.userIsAdmin && article.plateTop ===1" class="operate" @click="topArticle('plate',0)">取消板块置顶</span>
+          <span v-show="article.userIsAdmin && article.plateTop === 0" class="operate" @click="topArticle('plate',1)">版块置顶</span>
+          <span v-show="article.userIsAdmin && article.plateTop ===1" class="operate" @click="topArticle('plate',0)">取消版块置顶</span>
         </div>
         <div>
           <span v-show="!article.userHasLike" class="operate" @click="likeArticle(1)">
@@ -334,17 +334,17 @@ export default {
         })
         this.$set(this.restore, index, true)
       }
+    },
+    edit () {
+      // const { href } = this.$router.resolve({ name: 'newArtical' })
+      // window.open(href + '?id=' + this.$route.query.id, '_self')
+      this.$router.push({
+        path: '/mfs-forum/newArtical',
+        query: {
+          id: this.$route.query.id
+        }
+      })
     }
-    // edit () {
-    //   // const { href } = this.$router.resolve({ name: 'newArtical' })
-    //   // window.open(href + '?id=' + this.$route.query.id, '_self')
-    //   this.$router.push({
-    //     path: '/mfs-forum/newArtical',
-    //     query: {
-    //       id: this.$route.query.id
-    //     }
-    //   })
-    // }
   }
 }
 </script>
