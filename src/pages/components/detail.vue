@@ -687,6 +687,7 @@ export default {
   .box-card {
     width: 44%;
     margin: 20px 20%;
+    overflow: visible !important; /* 处理QQ浏览器预览图片时不能全屏的bug */
   }
   .dss{
     display: flex;
