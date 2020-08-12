@@ -131,8 +131,8 @@ export default {
     load () {
       this.loading = true
       this.flushNoticeList().then(res => {
-        this.params.page += 1
         this.totalRecords = res.totalRecords
+        this.params.page += 1
         this.loading = false
       }).catch((err) => {
         this.loading = false
@@ -155,7 +155,7 @@ export default {
       }
       this.notices = []
       this.params.page = 1
-      this.totalRecords = 0
+      this.totalRecords = 1
       this.load()
     },
     flushNoticeList () {
