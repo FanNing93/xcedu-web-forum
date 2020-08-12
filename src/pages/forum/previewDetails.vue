@@ -334,17 +334,17 @@ export default {
         })
         this.$set(this.restore, index, true)
       }
+    },
+    edit () {
+      // const { href } = this.$router.resolve({ name: 'newArtical' })
+      // window.open(href + '?id=' + this.$route.query.id, '_self')
+      this.$router.push({
+        path: '/mfs-forum/newArtical',
+        query: {
+          id: this.$route.query.id
+        }
+      })
     }
-    // edit () {
-    //   // const { href } = this.$router.resolve({ name: 'newArtical' })
-    //   // window.open(href + '?id=' + this.$route.query.id, '_self')
-    //   this.$router.push({
-    //     path: '/mfs-forum/newArtical',
-    //     query: {
-    //       id: this.$route.query.id
-    //     }
-    //   })
-    // }
   }
 }
 </script>
