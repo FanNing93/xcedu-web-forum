@@ -1,28 +1,24 @@
 <template>
   <section class="app-forum-navbar">
     <div>
-      <logo />
-      <el-menu :default-active="activeIndex" class="margin-lr-auto main-menu" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="0">首页</el-menu-item>
-        <el-menu-item v-for="plate in showPlateList" :key="plate.id" :index="plate.id" :platename="plate.plateName">{{ plate.plateName }}</el-menu-item>
-        <el-submenu v-if="foldPlateList.length != 0" index="2">
-          <template slot="title">更多</template>
-          <el-menu-item v-for="foldPlate in foldPlateList" :key="foldPlate.id" :index="foldPlate.id" :platename="foldPlate.plateName">{{ foldPlate.plateName }}</el-menu-item>
-        </el-submenu>
-        <el-menu-item v-if="isAdmin || userPlateList.length>0" index="-1">管理</el-menu-item>
-      </el-menu>
+      <div>
+        <logo />
+        <el-menu :default-active="activeIndex" class="margin-lr-auto main-menu" style="width: auto;" mode="horizontal" @select="handleSelect">
+          <el-menu-item index="0">首页</el-menu-item>
+          <el-menu-item v-for="plate in showPlateList" :key="plate.id" :index="plate.id" :platename="plate.plateName">{{ plate.plateName }}</el-menu-item>
+          <el-submenu v-if="foldPlateList.length != 0" index="2">
+            <template slot="title">更多</template>
+            <el-menu-item v-for="foldPlate in foldPlateList" :key="foldPlate.id" :index="foldPlate.id" :platename="foldPlate.plateName">{{ foldPlate.plateName }}</el-menu-item>
+          </el-submenu>
+          <el-menu-item v-if="isAdmin || userPlateList.length>0" index="-1">管理</el-menu-item>
+        </el-menu>
+      </div>
       <div>
         <el-button type="primary " @click="newArticle">内容发布</el-button>
-        <el-badge :value="noticeNum==0?'':noticeNum" class="item" style="cursor:pointer">
+        <el-badge :value="noticeNum || ''" class="pointer item">
           <i class="el-icon-bell size-large-xx" @click="directNotice " />
         </el-badge>
         <user />
-        <!-- <el-badge :value="noticeInfo.commentSum" class="item">
-          <i class="el-icon-message" @click="directNotice" />
-        </el-badge>
-        <el-badge :value="noticeInfo.noticeSum" class="item">
-          <i class="el-icon-chat-dot-round" @click="directNotice" />
-        </el-badge> -->
       </div>
     </div>
   </section>
